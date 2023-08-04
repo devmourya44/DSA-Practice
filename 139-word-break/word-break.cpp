@@ -1,27 +1,23 @@
 class Solution {
 public:
-    
-    bool check(string s, set<string> &st, map<string,bool> &mp){
-        int n=s.length();
-        
-        if(n==0) return true;
-        
-        if(mp.find(s)!=mp.end()) return mp[s];
-        
-        for(int i=0;i<s.length();i++){
-            string pre=s.substr(0,i+1); // current prefix string
-            string suf=s.substr(i+1); // left over suffix string
-            
-            if(st.find(pre)!=st.end() && (st.find(suf)!=st.end() || check(suf,st,mp)==true)) return mp[s]=true;
+    bool wordBreak(std::string s, std::vector<std::string>& wordDict) {
+        int n = s.size();
+        std::vector<bool> dp(n + 1, false);
+        dp[0] = true;
+        int max_len = 0;
+        for (const auto& word : wordDict) {
+            max_len = std::max(max_len, static_cast<int>(word.size()));
         }
-        return mp[s]=false;
-    }
-    
-    bool wordBreak(string s, vector<string> &dict) {
-        set<string> st;
-        for(int i=0;i<dict.size();i++) st.insert(dict[i]);
-        
-        map<string,bool> mp;
-        return check(s,st,mp);
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = i - 1; j >= std::max(i - max_len - 1, 0); j--) {
+                if (dp[j] && std::find(wordDict.begin(), wordDict.end(), s.substr(j, i - j)) != wordDict.end()) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return dp[n];
     }
 };
