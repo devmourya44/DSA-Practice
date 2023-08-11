@@ -9,10 +9,11 @@ public:
             return 1 + countSetBits(n & (n - 1));
     }
     vector<int> countBits(int n) {
-        vector<int>ans;
-        for(int i=0;i<=n;i++){
-            ans.push_back(countSetBits(i));
+        vector<int>dp(n+1,-1);
+        dp[0]=0;
+        for(int i=1;i<=n;i++){
+            dp[i]=countSetBits(i);
         }
-        return ans;
+        return dp;
     }
 };
