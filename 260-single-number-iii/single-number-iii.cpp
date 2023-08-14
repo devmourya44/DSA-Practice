@@ -1,19 +1,24 @@
 class Solution {
 public:
     vector<int> singleNumber(vector<int>& nums) {
-        unordered_map<int,int>mpp;
-        for(int i=0;i<nums.size();i++){
-            mpp[nums[i]]++;
+        int number = 0;
+        for( int i = 0; i < nums.size(); i++ ){
+            number ^= nums[i];
         }
-        vector<int>ans;
-        for(auto it:mpp){
-            if(it.second==1){
-                ans.push_back(it.first);
+        int setBit = 1;
+        while( true ){
+            if( number & ( setBit ) ){
+                break;
+            }
+            setBit <<= 1;
+        }
+        int firstAns = 0;
+        for( int i = 0; i < nums.size(); i++ ){
+            if( nums[i]&setBit ){
+                firstAns ^= nums[i];
             }
         }
-        if(ans[0]>ans[1]){
-            swap(ans[0],ans[1]);
-        }
-        return ans;
+        int secondAns = firstAns^number;
+        return {firstAns,secondAns}; 
     }
 };
