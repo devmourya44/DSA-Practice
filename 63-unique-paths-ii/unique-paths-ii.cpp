@@ -1,23 +1,22 @@
 class Solution {
 public:
-    int uniquePathsWithObstacles(vector<vector<int>>& v) {
-        int n = v.size(),m =v[0].size();
-        if(v[0][0] || v[n-1][m-1])return 0;
-        vector<vector<int>>dp(n,vector<int>(m,0));
-        dp[0][0]=1;
-        for(int i=1;i<n;i++){
-            if(v[i][0])dp[i][0]=0;
-            else dp[i][0]=dp[i-1][0];
-        }
-        for(int i=1;i<m;i++){
-            if(v[0][i])dp[0][i]=0;
-            else dp[0][i]=dp[0][i-1];
-        }
-        for(int i=1;i<n;i++){
-            for(int j=1;j<m;j++){
-                if(!v[i][j])dp[i][j]=dp[i-1][j]+dp[i][j-1];
-            }
-        }
-        return dp[n-1][m-1];
+    int n, m;
+    vector<vector<long long>> dp;
+    long long numsPaths(int i, int j, vector<vector<int>>& obstacleGrid)
+    {       
+        if (dp[i][j]!=-1) return dp[i][j];
+        if (obstacleGrid[i][j]==1) return dp[i][j]=0;
+        long long ans=0;
+        if (i>0) ans+=numsPaths(i-1, j, obstacleGrid);
+        if (j>0) ans+=numsPaths(i, j-1, obstacleGrid);
+        if (i==0 && j==0) ans=(obstacleGrid[0][0]==0)?1:0;
+        return dp[i][j]=ans;     
+    }
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        n=obstacleGrid.size();
+        m=obstacleGrid[0].size();
+        dp.assign(n, vector<long long>(m, -1));
+
+        return numsPaths(n-1, m-1, obstacleGrid);
     }
 };
