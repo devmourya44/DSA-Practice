@@ -12,28 +12,31 @@ public:
         
         else{
             int k = totSum/2;
-            vector<bool> prev(k+1,false);
+            vector<vector<bool>> dp(n,vector<bool>(k+1,false));
         
-            prev[0] = true;
+            for(int i=0; i<n; i++){
+                dp[i][0] = true;
+            }
             
             if(arr[0]<=k)
-                prev[arr[0]] = true;
+                dp[0][arr[0]] = true;
             
             for(int ind = 1; ind<n; ind++){
-                vector<bool> cur(k+1,false);
-                cur[0] = true;
                 for(int target= 1; target<=k; target++){
-                    bool notTaken = prev[target];
+                    
+                    bool notTaken = dp[ind-1][target];
             
                     bool taken = false;
                         if(arr[ind]<=target)
-                            taken = prev[target-arr[ind]];
+                            taken = dp[ind-1][target-arr[ind]];
                 
-                    cur[target]= notTaken||taken;
+                    dp[ind][target]= notTaken||taken;
                 }
-                prev = cur;
             }
-            return prev[k];
-        }
+            
+            return dp[n-1][k];
+
+        } 
+
     }
 };
