@@ -1,36 +1,22 @@
 class Solution {
 public:
-    int countPartitions(vector<int> &a, int maxSum) {
-        int n = a.size(); //size of array.
-        int partitions = 1;
-        long long subarraySum = 0;
-        for (int i = 0; i < n; i++) {
-            if (subarraySum + a[i] <= maxSum) {
-                //insert element to current subarray
-                subarraySum += a[i];
-            }
-            else {
-                //insert element to next subarray
-                partitions++;
-                subarraySum = a[i];
-            }
+vector<vector<int>>dp;
+    int solve(vector<int>& nums, int k,int ind){
+        if(ind==nums.size()&& k==0) return 0;
+        if(k==0) return 1e9;
+        if(dp[ind][k]!=-1) return dp[ind][k];
+        int sum=0;
+        int ans=INT_MAX,mn=INT_MIN;
+        for(int i=ind;i<nums.size();i++){
+           sum+=nums[i];
+           mn=max({sum,solve(nums,k-1,i+1)});
+           ans=min(ans,mn);
         }
-        return partitions;
+        return dp[ind][k]=ans;
     }
-    int splitArray(vector<int>& a, int k) {
-        int low = *max_element(a.begin(), a.end());
-        int high = accumulate(a.begin(), a.end(), 0);
-        //Apply binary search:
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            int partitions = countPartitions(a, mid);
-            if (partitions > k) {
-                low = mid + 1;
-            }
-            else {
-                high = mid - 1;
-            }
-        }
-        return low;
+    int splitArray(vector<int>& nums, int k) {
+        int n=nums.size();
+        dp.resize(n+1,vector<int>(k+1,-1));
+        return solve(nums,k,0);
     }
 };
