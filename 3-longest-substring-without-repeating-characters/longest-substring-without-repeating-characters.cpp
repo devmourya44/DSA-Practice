@@ -1,21 +1,24 @@
+//hash table + sliding window
+
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int n = s.length();
-        int maxLength = 0;
-        unordered_map<char, int> charMap;
-        int left = 0;
+    int n = s.size();
+    int ans = 0, i = 0, j = 0;
+    unordered_map<char,int> m;
+    while(j<n){
+        m[s[j]]++;
+        if(m.size() == j-i+1)ans=max(ans,j-i+1),j++;
         
-        for (int right = 0; right < n; right++) {
-            if (charMap.count(s[right]) == 0 || charMap[s[right]] < left) {
-                charMap[s[right]] = right;
-                maxLength = max(maxLength, right - left + 1);
-            } else {
-                left = charMap[s[right]] + 1;
-                charMap[s[right]] = right;
+        else if(m.size() < j-i+1){
+            while(m.size() < j-i+1){
+                m[s[i]]--;
+                if(m[s[i]] == 0) m.erase(s[i]);
+                i++;
             }
+            j++;
         }
-        
-        return maxLength;
+    }
+    return ans;
     }
 };
