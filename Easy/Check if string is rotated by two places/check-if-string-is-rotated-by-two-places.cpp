@@ -11,23 +11,29 @@ class Solution
     //another string by exactly 2 places.
     bool isRotated(string str1, string str2)
     {
-        bool b1 = true,b2 = true;
-        int n = str1.size();
-        for(int i = 0, j = 2;i < n;i++,j++){
-            j %= n;
-            if(str1[i] != str2[j]){
-                b1 = false;
-                break;
-            }
+        int n=str1.length();
+        if(n==1){
+            if(str1[0]==str2[0]) return true;
+            else return false;
         }
-        for(int i = 0,j = n-2;i < n;i++,j++){
-            j %= n;
-            if(str1[i] != str2[j]){
-                b2 = false;
-                break;
-            }
+        string s=""; // for storing anti clockwise rotated string
+        string s1=""; // for storing clockwise rotated string
+        for(int i=2;i<n;i++){
+            s+=str1[i];
         }
-        return b1 or b2;
+        for(int i=0;i<2;i++){
+            s+=str1[i];
+        }
+        
+        for(int i=n-2;i<n;i++){
+            s1+=str1[i];
+        }
+        for(int i=0;i<n-2;i++){
+            s1+=str1[i];
+        }
+        if(s==str2 or s1==str2) return true;
+        else return false;
+        
     }
 
 };
