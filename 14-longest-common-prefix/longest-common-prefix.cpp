@@ -1,77 +1,18 @@
-class TrieNode{
-        public:
-        char data;
-        TrieNode* children[26];
-        bool isTerminal;
-        int childCount;
-        TrieNode(char d) {
-                this->data = d;
-                for(int i=0; i<26 ; i++) {
-                        children[i] = NULL;
-                }
-                this->isTerminal = false;
-                childCount = 0;
-        }
-};
-
-void insertWord(TrieNode* root, string word) {
-        //cout << "Inserting " << word << endl;
-   //base case
-        if(word.length() == 0) {
-                root->isTerminal = true;
-                return;
-        }
-        
-        char ch = word[0];
-        int index = ch - 'a';
-        TrieNode* child;
-        //present
-        if(root->children[index] != NULL) {
-                child = root->children[index];
-        }
-        else {
-                //not present
-                child = new TrieNode(ch);
-                root->childCount++;
-                root->children[index] = child;
-        }
-
-        //recursion sambhal lega
-        insertWord(child, word.substr(1));
-}
-void findLCP(string first,string &ans,TrieNode* root){
-    // Here I can do mistake
-    if(root->isTerminal)
-        return;
-    for(int i = 0;i<first.length();i++){
-        char ch = first[i];
-        if(root->childCount == 1){
-            ans.push_back(ch);
-            // move forward
-            int index = ch - 'a';
-            root = root->children[index];
-        }
-        else{
-            break;
-        }
-        // If root is terminal
-        if(root->isTerminal){
-            break;
-        }
-    }
-}
 class Solution {
 public:
-    string longestCommonPrefix(vector<string>& strs) {
-        TrieNode* root = new TrieNode('-');
-        // Insert the characters in trie
-        for(int i = 0;i<strs.size();i++){
-            insertWord(root,strs[i]);
+    string longestCommonPrefix(vector<string>& arr) {
+        sort(arr.begin(), arr.end());
+        int n=arr.size();
+        string str;
+        for(int i=0; i<arr[0].size(); i++){
+             if(arr[0][i]==arr[n-1][i]){
+                 str+=arr[0][i];
+             }  
+             else{
+                 break;
+             }
         }
-        string ans = "";
-        // So that we can move forward by using the characters
-        string first = strs[0];
-        findLCP(first,ans,root);
-        return ans;
+        return str==""? "": str;
+    
     }
 };
