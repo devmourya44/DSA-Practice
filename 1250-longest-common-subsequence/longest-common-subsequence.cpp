@@ -27,31 +27,57 @@ public:
 
 
     //by tabulation
-    int SolveTab(string& s1,string& s2){
+    // int SolveTab(string& s1,string& s2){
+    //     int n=s1.length();
+    //     int m=s2.length();
+
+    //     vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        
+    //     for(int i=n-1;i>=0;i--){
+    //         for(int j=m-1;j>=0;j--){
+    //             int ans=0;
+    //             if(s1[i]==s2[j]){
+    //                 ans=1+dp[i+1][j+1];
+    //             }
+    //             else{
+    //                 ans=max(dp[i+1][j],dp[i][j+1]);
+    //             }
+    //             dp[i][j]=ans;
+    //         }
+    //     }
+
+        
+    //     return dp[0][0];
+    // }
+
+    // space optimisation
+    int SolveSpace(string& s1,string& s2){
         int n=s1.length();
         int m=s2.length();
-
-        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
-        
+        vector<int>prev(m+1,0),curr(m+1,0);
         for(int i=n-1;i>=0;i--){
             for(int j=m-1;j>=0;j--){
                 int ans=0;
                 if(s1[i]==s2[j]){
-                    ans=1+dp[i+1][j+1];
+                    ans=1+curr[j+1];
                 }
                 else{
-                    ans=max(dp[i+1][j],dp[i][j+1]);
+                    ans=max(curr[j],prev[j+1]);
                 }
-                dp[i][j]=ans;
+                prev[j]=ans;
             }
+            curr=prev;
         }
 
         
-        return dp[0][0];
+        return prev[0];
+
     }
 
 
+
     int longestCommonSubsequence(string text1, string text2) {
-        return SolveTab(text1,text2);
+        // return SolveTab(text1,text2);
+        return SolveSpace(text1,text2);
     }
 };
