@@ -2,55 +2,28 @@ class Solution {
 public:
     std::vector<std::string> fullJustify(std::vector<std::string>& words, int maxWidth) {
         std::vector<std::string> res;
+        std::vector<std::string> cur;
+        int num_of_letters = 0;
 
-        int i = 0;
-        int width = 0;
-        std::vector<std::string> curLine;
-
-        while (i < words.size()) {
-            std::string curWord = words[i];
-
-            if (width + curWord.length() <= maxWidth) {
-                curLine.push_back(curWord);
-                width += curWord.length() + 1;
-                i++;
-            } else {
-                int spaces = maxWidth - width + curLine.size();
-
-                int added = 0;
-                int j = 0;
-
-                while (added < spaces) {
-                    if (j >= curLine.size() - 1) {
-                        j = 0;
-                    }
-
-                    curLine[j] += " ";
-                    added++;
-                    j++;
+        for (std::string word : words) {
+            if (word.size() + cur.size() + num_of_letters > maxWidth) {
+                for (int i = 0; i < maxWidth - num_of_letters; i++) {
+                    cur[i % (cur.size() - 1 ? cur.size() - 1 : 1)] += ' ';
                 }
-
-                std::string line = "";
-                for (const std::string& word : curLine) {
-                    line += word;
-                }
-                res.push_back(line);
-
-                curLine.clear();
-                width = 0;
+                res.push_back("");
+                for (std::string s : cur) res.back() += s;
+                cur.clear();
+                num_of_letters = 0;
             }
+            cur.push_back(word);
+            num_of_letters += word.size();
         }
 
-        for (int word = 0; word < curLine.size() - 1; word++) {
-            curLine[word] += " ";
-        }
-        curLine[curLine.size() - 1] += std::string(maxWidth - width + 1, ' ');
-
-        std::string lastLine = "";
-        for (const std::string& word : curLine) {
-            lastLine += word;
-        }
-        res.push_back(lastLine);
+        std::string last_line = "";
+        for (std::string s : cur) last_line += s + ' ';
+        last_line = last_line.substr(0, last_line.size()-1);  // remove trailing space
+        while (last_line.size() < maxWidth) last_line += ' ';
+        res.push_back(last_line);
 
         return res;
     }
