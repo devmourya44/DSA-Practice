@@ -1,25 +1,21 @@
 class Solution {
 public:
-    int beautySum(string S) {
-        int N = S.length();
-        int totalBeauty = 0;
-        
-        for (int start = 0; start < N; ++start) {
-            unordered_map<char, int> frequencyMap;
-            
-            for (int end = start; end < N; ++end) {
-                frequencyMap[S[end]]++;
-                
+    int beautySum(string s) {
+        int sum = 0; //  to store ans;
+        int n = s.length();        
+        for (int i = 0; i < n; i++) {
+            unordered_map<char, int> mp;
+            for (int j = i; j < n; j++) {
+                mp[s[j]]++; // storing every possible substring
                 int maxFreq = 0, minFreq = INT_MAX;
-                for (const auto& kvp : frequencyMap) {
-                    maxFreq = max(maxFreq, kvp.second);
-                    minFreq = min(minFreq, kvp.second);
+                //<!--finding beauty of substing -->
+                for (auto it : mp) {
+                    maxFreq = max(maxFreq, it.second);
+                    minFreq = min(minFreq, it.second);
                 }
-                
-                totalBeauty += (maxFreq - minFreq);
+                sum += (maxFreq - minFreq);
             }
         }
-        
-        return totalBeauty;
+        return sum;
     }
 };
