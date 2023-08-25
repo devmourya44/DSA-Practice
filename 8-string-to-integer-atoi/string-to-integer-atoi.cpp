@@ -1,37 +1,30 @@
-/*
-
-    Time Complexity : O(logN), Since we are going through the entire number digit by digit, the time complexity
-    should be O(log10N). The reason behind log10 is because we are dealing with integers which are base 10.
-
-    Space Complexity : O(1), We are not using any data structure for interim operations, therefore, the space
-    complexity is O(1).
-
-    Solved using String.
-
-*/
-
 class Solution {
 public:
-    int myAtoi(string s) {
-        int len = s.size();
-        double num = 0;
-        int i=0;
-        while(s[i] == ' '){
+    int myAtoi(string str) {
+         int result = 0;
+        int i = 0;
+        int sign = 1;
+
+        while (str[i] == ' ')
+            i++;
+
+        if (str[i] == '+' || str[i] == '-') {
+            sign = (str[i++] == '-') ? -1 : 1;
+        }
+
+        while (isdigit(str[i])) {
+            int digit = str[i] - '0';
+
+            // Check for overflow before updating result
+            if (result > INT_MAX / 10 || (result == INT_MAX / 10 && digit > INT_MAX % 10)) {
+                return (sign == -1) ? INT_MIN : INT_MAX;
+            }
+
+            result = result * 10 + digit;
             i++;
         }
-        bool positive = s[i] == '+';
-        bool negative = s[i] == '-';
-        positive == true ? i++ : i;
-        negative == true ? i++ : i;
-        while(i < len && s[i] >= '0' && s[i] <= '9'){
-            num = num*10 + (s[i]-'0');
-            i++;
-        }
-        num = negative ? -num : num;
-        cout<<num<<endl;
-        num = (num > INT_MAX) ? INT_MAX : num;
-        num = (num < INT_MIN) ? INT_MIN : num;
-        cout<<num<<endl;
-        return int(num);
+
+        return sign * result;
     }
+
 };
