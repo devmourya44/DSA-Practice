@@ -1,30 +1,26 @@
 class Solution {
 public:
-    void generateCombinations(int start, int k, int n, vector<int>& comb, vector<bool>& used, vector<vector<int>>& result) {
-        if (k == 0 && n == 0) {
-            result.push_back(comb);
-            return;
-        }
-        if (k == 0 || n < 0) {
-            return;
-        }
-        for (int i = start; i <= 9; ++i) {
-            if (!used[i]) {
-                used[i] = true;
-                comb.push_back(i);
-                generateCombinations(i + 1, k - 1, n - i, comb, used, result);
-                comb.pop_back();
-                used[i] = false;
+    void solve(int index, vector<int> &ds,int n, int k,vector<int> &nums,vector<vector<int>> &ans){
+        if(k==0){
+            if(n==0){
+                ans.push_back(ds);
+                return;
             }
+            return;
+        }
+        for(int i=index;i<9;i++){
+            if(nums[i]>n) break;
+            ds.push_back(nums[i]);
+            solve(i+1,ds,n-nums[i],k-1,nums,ans);
+            ds.pop_back();
         }
     }
-        
-    
     vector<vector<int>> combinationSum3(int k, int n) {
-        vector<vector<int>> result;
-        vector<int> comb;
-        vector<bool> used(10, false); // 1 to 9
-        generateCombinations(1, k, n, comb, used, result);
-        return result;
+        int index = 0;
+        vector<int> nums = {1,2,3,4,5,6,7,8,9};
+        vector<vector<int>> ans;
+        vector<int> ds;
+        solve(index,ds,n,k,nums,ans);
+        return ans;
     }
 };
