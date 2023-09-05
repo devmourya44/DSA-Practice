@@ -8,7 +8,7 @@ public:
         if (k == 0 || n < 0) {
             return;
         }
-        for (int i = start; i <= 9 - (k - 1); ++i) {
+        for (int i = start; i <= 9; ++i) {
             if (!used[i]) {
                 used[i] = true;
                 comb.push_back(i);
@@ -18,7 +18,7 @@ public:
             }
         }
     }
-    
+        
     
     vector<vector<int>> combinationSum3(int k, int n) {
         vector<vector<int>> result;
