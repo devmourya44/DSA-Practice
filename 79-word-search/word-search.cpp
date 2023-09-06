@@ -1,39 +1,46 @@
 class Solution {
 public:
-    bool search(int index,int i,int j,vector<vector<char>> &board, string word){
-        if(index == word.size()){
+    int rows;
+    int cols;
+    int dx[4] = {1,-1,0,0};
+    int dy[4] = {0,0,1,-1};
+
+    bool backtrack(vector<vector<char>>&board , int i , int j , string word, int index)
+    {
+        if(index == word.size())
             return true;
-        }
-        if(i<0 || j<0 || i >= board.size() || j >= board[0].size()){
+        
+        if(i >= rows or j >= cols or i < 0 or j < 0 or board[i][j] != word[index])
             return false;
-        }
-        bool ans = false;
-        if(word[index] == board[i][j]){
-            board[i][j] = '*';
-            
-            ans = search(index+1,i+1,j,board,word) || search(index+1,i,j+1,board,word) ||  search(index+1,i-1,j,board,word) ||search(index+1,i,j-1,board,word);
-            
-            board[i][j] = word[index];
-        }
-        return ans;
+
+        char t = board[i][j];
+        board[i][j] = '*';
+        
+        bool x =
+        backtrack(board,i+dx[0],j+dy[0],word,index+1) or
+        backtrack(board,i+dx[1],j+dy[1],word,index+1) or
+        backtrack(board,i+dx[2],j+dy[2],word,index+1) or
+        backtrack(board,i+dx[3],j+dy[3],word,index+1);
+
+        board[i][j] = t;
+
+        return x;
     }
-    
-    bool exist(vector<vector<char>>& board, string word) {
-        int m = board[0].size();
-        int n = board.size();
-         int index  = 0;
-        
-        bool ans = false;
-        
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(word[index] == board[i][j]){
-                    if(search(index,i,j,board,word)){
-                        return true;
-                    }
-                }
+
+    bool exist(vector<vector<char>>& board, string word)
+    {
+        rows = board.size();
+        cols = board[0].size();
+
+        for(int i=0;i<rows;i++)
+        {
+            for(int j=0;j<cols;j++)
+            {
+                if(backtrack(board,i,j,word,0))
+                    return true; 
             }
         }
-        return ans;
+        return false;
     }
+ 
 };
