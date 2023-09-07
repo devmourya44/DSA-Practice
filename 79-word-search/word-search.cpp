@@ -1,34 +1,42 @@
 class Solution {
-private:
-    bool dfs(vector<vector<char>>& board, vector<vector<bool>>& vis, string &word, int i, int j, int start) {
-        int m = board.size(), n = board[0].size();
-        if(start == word.size()) return true;
-        if(i < 0 || i >= m || j < 0 || j >= n || vis[i][j] || board[i][j] != word[start]) return false;
-        
-        vis[i][j] = true;
-        bool a = dfs(board, vis, word, i+1, j, start+1) ||
-                 dfs(board, vis, word, i-1, j, start+1) ||
-                 dfs(board, vis, word, i, j+1, start+1) ||
-                 dfs(board, vis, word, i, j-1, start+1);
-        
-        vis[i][j] = false; // Reset the visited state for backtracking
-        return a;
-    }
-
 public:
+
+    bool dfs(vector<vector<char>>& board, string& word, int index, int row, int col) {
+        if (index == word.length()) {
+            return true;
+        }
+
+        if (row < 0 || row >= board.size() || col < 0 || col >= board[0].size()) {
+            return false;
+        }
+
+        if (board[row][col] != word[index]) {
+            return false;
+        }
+
+        char temp = board[row][col];
+        board[row][col] = '0'; // Mark as visited
+
+        bool found = dfs(board, word, index + 1, row + 1, col) ||
+                    dfs(board, word, index + 1, row - 1, col) ||
+                    dfs(board, word, index + 1, row, col + 1) ||
+                    dfs(board, word, index + 1, row, col - 1);
+
+        board[row][col] = temp; // Mark as unvisited
+        return found;
+    }
     bool exist(vector<vector<char>>& board, string word) {
-        int m = board.size();
-        int n = board[0].size();
-        
-        vector<vector<bool>> vis(m, vector<bool>(n, false));
-        
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                if(dfs(board, vis, word, i, j, 0))
+        int rows = board.size();
+        int cols = board[0].size();
+
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                if (dfs(board, word, 0, i, j)) {
                     return true;
+                }
             }
         }
-        
+
         return false;
     }
 };
