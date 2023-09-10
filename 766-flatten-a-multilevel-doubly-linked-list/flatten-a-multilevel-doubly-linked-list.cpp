@@ -8,23 +8,32 @@ public:
     Node* child;
 };
 */
-
 class Solution {
 public:
+    void recurse(Node* ptr, Node* prev){
+        if(ptr==NULL){
+            return;
+        }
+        if(ptr->child){
+            Node* temp = ptr->next;
+            ptr->next = ptr->child;
+            ptr->child->prev = ptr;
+            recurse(ptr->child, temp);
+            ptr->child = NULL;
+        }
+        recurse(ptr->next, prev);
+        if(prev && ptr->next == NULL){
+            ptr->next = prev;
+            prev->prev = ptr;
+        }
+        return;
+    }
+    
     Node* flatten(Node* head) {
-        if(!head || !head->next && !head->child) return head;
-        Node* ans=head;
-        while(head->next && !head->child)head=head->next;
-
-        Node * after=flatten(head->next);
-        Node* current=head;
-        if(head->child) head->child->prev=head;
-        head->next=flatten(head->child);
-        head->child=NULL;
-        while(head->next)head=head->next;
-        if(after)  after->prev=head;
-        head->next=after;
-        
-        return ans;
+        if(!head){
+            return head;
+        }
+        recurse(head, NULL);
+        return head;
     }
 };
