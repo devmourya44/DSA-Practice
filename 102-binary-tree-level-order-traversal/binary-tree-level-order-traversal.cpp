@@ -12,8 +12,9 @@
 class Solution {
 public:
     
-    void solve(TreeNode *root,vector<vector<int>>&ans){
-        if(root==NULL) return;
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>>ans;
+        if(root==NULL) return ans;
 
         queue<TreeNode*>q;
         q.push(root);
@@ -31,11 +32,6 @@ public:
             }
             ans.push_back(temp);
         }
-    
-    }
-    vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>>ans;
-        solve(root,ans);
         return ans;
     }
 };
