@@ -14,21 +14,19 @@ public:
      void solve(TreeNode* root, vector<int>&ans){
         if (!root) return;
 
-        stack<TreeNode*> st1, st2;
-        st1.push(root);
+        stack<TreeNode*> st;
+        st.push(root);
 
-        while (!st1.empty()) {
-            TreeNode* node = st1.top();
-            st1.pop();
-            st2.push(node);
+        while (!st.empty()) {
+            TreeNode* node = st.top();
+            st.pop();
 
-            if (node->left) st1.push(node->left);
-            if (node->right) st1.push(node->right);
-        }
+            // Reverse the order of visited nodes
+            ans.insert(ans.begin(), node->val);
 
-        while (!st2.empty()) {
-            ans.push_back(st2.top()->val);
-            st2.pop();
+            // Push the left child first, then the right child
+            if (node->left) st.push(node->left);
+            if (node->right) st.push(node->right);
         }
     }
     vector<int> postorderTraversal(TreeNode* root) {
