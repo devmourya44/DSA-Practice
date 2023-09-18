@@ -13,20 +13,16 @@ class Solution
 {
     public:
     //Function to find position of first set bit in the given number.
+    
     unsigned int getFirstSetBit(int n)
     {
-        for(int i=0;i<=32;i++)
-        {
-            int x=(n>>(i));
-            
-            if(x&1!=0)
-            {
-                return i+1;
-                break;
-            }                
-        }
-        return 0;
+        if(n==2)return 2;
+        if(n==1)return 1;
+        long long int t = pow(2,int(log2(n)));
+        if(n==t)return log2(n)+1;
+        return getFirstSetBit(n-t);
     }
+    
 };
 
 //{ Driver Code Starts.
