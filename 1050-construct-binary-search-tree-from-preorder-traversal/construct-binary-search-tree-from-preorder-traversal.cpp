@@ -19,7 +19,7 @@ public:
 
         int root=r->val;
         int i=s+1; //root next is start of its left
-        while(i<=e && pre[i]<root)i++;
+        while(i<=e && pre[i]<root)++i;
 
         r->left = solve(pre,s+1,i-1);
         r->right =solve(pre,i,e);
