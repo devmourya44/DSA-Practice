@@ -9,17 +9,28 @@ class Solution
 {
     public:
     //Function to check if two strings are rotations of each other or not.
-    bool areRotations(string s1,string s2)
-    {
-        if(s1.length() != s2.length()) {
-
-            return false;
-    
+    bool rotateString(string A, string B, int rotation) {
+        for(int i = 0; i < A.length(); i++) {
+            if(A[i] != B[(i+rotation)%B.length()]) {
+                return false;
+            }
         }
-        
-        string temp = s1 + s1;
-        
-        return (temp.find(s2) != std::string::npos) ? true : false;
+        return true;
+    }
+    bool areRotations(string s,string goal)
+    {
+        if(s.length() != goal.length()) {
+            return false;
+        }
+        if(s.length() == 0) {
+            return true;
+        }
+        for(int i = 0; i < s.length(); i++) {
+            if(rotateString(s, goal, i)) {
+                return true;
+            }
+        }
+        return false;
     }
 };
 
