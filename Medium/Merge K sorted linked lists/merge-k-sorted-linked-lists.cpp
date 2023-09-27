@@ -44,30 +44,46 @@ struct Node
 */ 
 
 class Solution{
-  public:
-    //Function to merge K sorted linked list.
-    vector<int> LLtoArr(Node* arr[], int n){
-        vector<int> ans;
-        for(int i = 0; i < n; i++){
-            Node* curr = arr[i];
-            while(curr){
-                ans.push_back(curr->data);
-                curr = curr->next;
-            }
+public:
+
+      class compare {
+        public:
+        bool operator() (Node*a , Node* b){
+            return a->data > b->data;
         }
-        return ans;
-    }
+      };
     //Function to merge K sorted linked list.
     Node * mergeKLists(Node *arr[], int K)
     {
-        // Your code here
-        vector<int> a = LLtoArr(arr, K);
-        sort(a.begin(), a.end());
-        for(int i = 0; i < a.size(); i++){
-            cout<<a[i]<<" ";
+           // Your code here
+           priority_queue<Node* ,vector<Node*>, compare> minHeap;
+           for( int i=0;i<K;i++){
+               if(arr[i]!=NULL){
+               minHeap.push(arr[i]);
+           }
+           }
+        Node* head = NULL;
+        Node *tail = NULL;
+        while(minHeap.size()>0){
+            Node* top = minHeap.top();
+            minHeap.pop();
+            
+            if(top->next != NULL){
+                minHeap.push(top->next);
+            }
+            if(head == NULL){
+                head = top;
+                tail = top;
+            }
+            else{
+                tail->next = top;
+                tail = top;
+            }
+            
         }
-        return nullptr;
+        return head;
     }
+
 };
 
 
