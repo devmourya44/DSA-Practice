@@ -19,38 +19,38 @@ class Solution
 {
     public:
     
-    vector<int> merge(vector<int> A,vector<int> B,int K){
-        vector<int> temp;
-        int i=0,j=0;
-        
-        while(i<K && j<B.size()){
-            if(A[i]<B[j])
-                temp.push_back(A[i++]);
-            else
-                temp.push_back(B[j++]);
-                
-        }
-        
-        while(i<K){
-            temp.push_back(A[i++]);        
-        }
-        
-        while(j<B.size())
-            temp.push_back(B[j++]);
-        return temp;
-    }
-    //Function to merge k sorted arrays.
-    vector<int> mergeKArrays(vector<vector<int>> arr, int K)
+    vector<int> mergeKArrays(vector<vector<int>> kArrays, int K)
     {
         //code here
-        vector<int> res=arr[0];
         
-        for(int i=1;i<K;i++){
-            res=merge(arr[i],res,K);
+        
+        vector<int>ans;
+
+        priority_queue<int,vector<int>,greater<int>>pq;
+    
+        for(auto it : kArrays) {
+    
+            for(int i=0 ; i<it.size() ; i++){
+    
+                pq.push(it[i]);
+    
+            }
+    
         }
+    
+        while(!pq.empty()){
+    
+            ans.push_back(pq.top());
+    
+            pq.pop();
+    
+        }
+    
+        return ans;
         
-        return res;
     }
+
+
 };
 
 //{ Driver Code Starts.
