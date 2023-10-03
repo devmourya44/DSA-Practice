@@ -9,27 +9,22 @@ using namespace std;
 
 class Solution{
 public:
-    void solve(vector<int>& v,int n){
-      
-        v.push_back(n);
-          
-        if(n<=0){
-          return;
-        }
-
-        solve(v,n-5);
-        v.push_back(n);
+    vector<int> helper(vector<int> v,int N){
+        v.push_back(N);
+        if(N<=0)
+            return v;
         
+        vector<int> new_v = helper(v,N-5);
+        if(N>0)
+            new_v.push_back(N);
+        return new_v;
     }
-  
-
+    
     vector<int> pattern(int N){
+        // code here
         
         vector<int> v;
-        
-        solve(v,N);
-        
-        return v;
+        return helper(v,N);
     }
 };
 
