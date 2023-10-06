@@ -1,15 +1,18 @@
 //{ Driver Code Starts
-//Initial template for C++
-
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-// } Driver Code Ends
-//User function template for C++
 
-class Solution{   
-public:
-    long long countPairs(int X[], int Y[], int m, int n) 
+// } Driver Code Ends
+ 
+
+class Solution{
+    public:
+    
+    // X[], Y[]: input array
+    // M, N: size of arrays X[] and Y[] respectively
+    //Function to count number of pairs such that x^y is greater than y^x.
+    long long countPairs(int X[], int Y[], int m, int n)
     {
         // code here
         // x^y > y^x
@@ -17,9 +20,7 @@ public:
         // ylog(x)>xlog(y)
         // y/x>log(y)/log(x)
         //y/log(y)> x/log(x)
-       
-       
-       
+      
         vector<double>x;
         vector<double>y;
         
@@ -49,25 +50,27 @@ public:
     }
 };
 
-//{ Driver Code Starts.
 
-int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        int m, n;
-        cin >> m >> n;
-        int X[m], Y[n];
-        for (int i = 0; i < m; i++) {
-            cin >> X[i];
-        }
-        for (int i = 0; i < n; i++) {
-            cin >> Y[i];
-        }
-        Solution ob;
-        auto ans = ob.countPairs(X, Y, m, n);
-        cout << ans << "\n";
-    }
-    return 0;
+//{ Driver Code Starts.
+int main()
+{
+	int T;
+	cin>>T;
+	while(T--)
+	{
+		int M,N;
+		cin>>M>>N;
+		int i,a[M],b[N];
+		for(i=0;i<M;i++)
+		{
+			cin>>a[i];
+		}
+		for(i=0;i<N;i++)
+		{
+			cin>>b[i];
+		}
+		Solution ob;
+		cout<<ob.countPairs(a, b, M, N)<<endl;
+	}
 }
 // } Driver Code Ends
