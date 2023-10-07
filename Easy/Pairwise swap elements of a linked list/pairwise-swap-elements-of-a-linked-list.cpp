@@ -35,24 +35,30 @@ struct Node
 class Solution
 {
     public:
-     Node* pairWiseSwap(struct Node* head) 
+    Node* pairWiseSwap(struct Node* head) 
     {
-        if(head==NULL ||head->next==NULL)return head;
-        Node *dummy =new Node(0);
-        dummy->next=head;
-        Node *prev=dummy;
-        Node *cur=head;
-        while(cur and cur->next)
-        {
-            Node *nxt=cur->next;
-            cur->next=nxt->next;
-            prev->next=nxt;
-            nxt->next=cur;
-            
-            prev=cur;
-            cur=cur->next;
+        if(head==NULL || head->next==NULL)
+          return head;
+
+        Node* prev=NULL;
+        Node* curr=head;
+        Node* forward=curr->next;
+        
+        int count=0;
+        
+        while(count < 2){
+          forward = curr->next;
+          curr->next = prev;
+          prev = curr;
+          curr = forward;
+          count++;
         }
-        return dummy->next;
+        
+        if(forward != NULL){ 
+            head->next = pairWiseSwap(forward); 
+        }
+        
+        return prev;
     }
 };
 
