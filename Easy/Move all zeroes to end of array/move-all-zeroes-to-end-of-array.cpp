@@ -6,16 +6,16 @@ using namespace std;
 //User function template for C++
 class Solution{
 public:
-	 void pushZerosToEnd(int arr[], int n) {
-        int count = 0;
-        for(int i = 0; i < n; i++)
-        {
-            if(arr[i] != 0){
-               swap(arr[count], arr[i]);
-               count++;
-            }
-        }
-    }
+	void pushZerosToEnd(int arr[], int n) {
+	    int i = -1, j= 0;
+	    while(j < n) {
+	        if(arr[j] != 0) {
+	            i++;
+	            swap(arr[i], arr[j]);
+	        }
+	        j++;
+	    }
+	}
 };
 
 //{ Driver Code Starts.
